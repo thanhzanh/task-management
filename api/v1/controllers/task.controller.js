@@ -7,11 +7,19 @@ module.exports.index = async (req, res) => {
     };
 
     // nếu có status truyền lên thì thêm key status vào find
-    if (req.query) {
+    if (req.query.status) {
         find.status = req.query.status;
     }
 
-    const tasks = await Task.find(find);
+    // sort
+    const sort = {};
+
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    }
+    // end sort
+
+    const tasks = await Task.find(find).sort(sort);
 
     res.json(tasks);
 };
