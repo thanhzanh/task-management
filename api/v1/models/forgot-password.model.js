@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const forgotPasswordSchema = new mongoose.Schema(
     {
         email: String,
-        opt: String,
+        otp: String,
         expireAt: {
             type: Date,
             expires: 180
