@@ -36,3 +36,40 @@ module.exports.register = async (req, res) => {
         });
     } 
 };
+
+// [POST] /api/v1/users/login
+module.exports.login = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const user = await User.findOne({
+        email: email,
+        deleted: false
+    });
+
+    if (!user) {
+        res.json({
+            code: 400,
+            message: "Email đã tồn tại!"
+        });
+        return;
+    }
+
+    if (md5(password) != user.password) {
+        res.json({
+            code: 400,
+            message: "Sai mật khẩu!"
+        });
+        return;
+    }
+
+    const token = user.token;
+    res.cookie("token", token);
+
+    res.json({
+        code: 200,
+        message: "Đăng nhập thành công!",
+        token: token
+    });
+    
+}
