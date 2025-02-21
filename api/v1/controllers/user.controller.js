@@ -155,3 +155,35 @@ module.exports.otpPassword = async (req, res) => {
         token: token
     });
 };
+
+// [POST] /api/v1/users/password/reset
+module.exports.resetPassword = async (req, res) => {
+    const token = req.body.token;
+    const password = req.body.password;
+
+    // check user theo token
+    const user = await User.findOne({
+        token: token
+    });
+
+    // yêu cầu nhập mật khẩu khác mật khẩu cũ
+    if (md5(password) === user.password) {
+        res.json({
+            code: 400,
+            message: "Vui lòng nhập mật khẩu khác mật khẩu cũ"
+        });
+        return;
+    }
+
+    // lưu data vào database
+    await User.updateOne({
+        token: token
+    }, {
+        password: md5(password)
+    });
+    
+    res.json({
+        code: 200,
+        message: "Đổi mật khẩu thành công"
+    });
+};
