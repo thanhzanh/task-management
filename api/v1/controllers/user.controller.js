@@ -191,17 +191,17 @@ module.exports.resetPassword = async (req, res) => {
 
 // [GET] /api/v1/users/detail
 module.exports.detail = async (req, res) => {
-    const token = req.cookies.token;
+    // const token = req.cookies.token;
 
-    // thông tin user(ngoại trừ password token)
-    const user = await User.findOne({
-        token: token,
-        deleted: false
-    }).select("-password -token");
+    // // thông tin user(ngoại trừ password token)
+    // const user = await User.findOne({
+    //     token: token,
+    //     deleted: false
+    // }).select("-password -token");
 
     res.json({
         code: 200,
         message: "Thông tin user",
-        infoUser: user
+        infoUser: req.user
     });
 };
