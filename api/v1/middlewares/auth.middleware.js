@@ -18,6 +18,7 @@ module.exports.requireAuth = async (req, res, next) => {
             return;
         }
 
+        // login by user (Thong tin user)
         req.user = user;
 
         next();
