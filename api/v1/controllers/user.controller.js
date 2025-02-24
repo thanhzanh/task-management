@@ -205,3 +205,15 @@ module.exports.detail = async (req, res) => {
         infoUser: req.user
     });
 };
+
+// [GET] /api/v1/users/list
+module.exports.list = async (req, res) => {
+    
+    const user = await User.findOne({ deleted: false }).select("fullName email");
+
+    res.json({
+        code: 200,
+        message: "Thông tin user",
+        user: user
+    });
+};
