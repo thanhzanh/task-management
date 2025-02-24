@@ -54,7 +54,7 @@ module.exports.login = async (req, res) => {
     if (!user) {
         res.json({
             code: 400,
-            message: "Email đã tồn tại!"
+            message: "Email không tồn tại!"
         });
         return;
     }
